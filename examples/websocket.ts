@@ -18,6 +18,9 @@ async function main() {
     await sdk.subscriptions.subscribeToMarkPrices((data) => {
       console.log("Received mark price data:", data);
     });
+    await sdk.subscriptions.subscribeToOrderbook("BTCUSD", (data) => {
+      console.log("Received BTCUSD orderbook data:", data);
+    });
     await new Promise(() => {});
   } catch (error) {
     console.log("error", error);

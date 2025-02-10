@@ -117,3 +117,11 @@ export interface MarkPrice {
   markPrice: string;
   indexPrice: string;
 }
+
+// Type for a single order book entry [price, quantity]
+type OrderBookEntry = [string, string];
+
+export interface OrderBook {
+  bids: OrderBookEntry[]; // Array of [price, quantity] for buy orders
+  asks: OrderBookEntry[]; // Array of [price, quantity] for sell orders
+}
