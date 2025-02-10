@@ -59,9 +59,23 @@ export class Exchange {
 
   public async batchCancelOrder(
     requests: CancelOrderRequest[]
-  ): Promise<CancelOrderApiResponse[]> {
-    const cancelRequests = requests.map((request) => this.cancelOrder(request));
-
-    return Promise.all(cancelRequests);
+  ): Promise<CancelOrderApiResponse> {
+    const response = await this.auth.client.post<{
+      data: CancelOrderApiResponse;
+    }>(
+      `/v2/batch-cancel-order`,
+      requests.map((request) => {
+        return {
+          symbol: request.symbol,
+          subaccount: this.auth.getSubaccount(),
+          nonce: this.auth.generateNonce(),
+          order_digest: request.orderDigest,
+          is_conditional_order: false,
+          wait_for_reply: request.waitForReply ?? false,
+          client_order_id: request.clientOrderId,
+        };
+      })
+    );
+    return response.data.data;
   }
 }
