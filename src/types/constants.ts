@@ -4,6 +4,6 @@ export const BASE_URLS = {
 };
 
 export const WSS_URLS = {
-  mainnet: "wss://api.happytrading.global/ws",
-  testnet: "wss://stg-trade-api.happytrading.global/ws",
+  mainnet: "wss://ws-api.happytrading.global/ws",
+  testnet: "wss://stg-trade-ws-api.happytrading.global/ws",
 };

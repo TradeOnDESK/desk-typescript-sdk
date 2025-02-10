@@ -9,6 +9,7 @@ export class Auth {
   private readonly wallet: ethers.Wallet;
   private readonly subAccountId: number;
   public client: AxiosInstance;
+  public network: Network;
 
   constructor(
     network: Network,
@@ -18,6 +19,7 @@ export class Auth {
     this.privateKey = privateKey;
     this.wallet = new ethers.Wallet(privateKey);
     this.subAccountId = subAccountId;
+    this.network = network;
     this.client = axios.create({
       baseURL: BASE_URLS[network],
       headers: {

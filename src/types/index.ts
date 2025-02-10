@@ -111,3 +111,9 @@ interface CancelledOrder {
 export interface CancelOrderApiResponse {
   orders: CancelledOrder[];
 }
+
+export interface MarkPrice {
+  symbol: string;
+  markPrice: string;
+  indexPrice: string;
+}
