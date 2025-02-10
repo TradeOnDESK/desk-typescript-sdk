@@ -43,14 +43,25 @@ export class Exchange {
   public async cancelOrder(
     request: CancelOrderRequest
   ): Promise<CancelOrderApiResponse> {
-    const response = await this.auth.client.post(`v2/cancel-order`, {
+    const response = await this.auth.client.post<{
+      data: CancelOrderApiResponse;
+    }>(`/v2/cancel-order`, {
       symbol: request.symbol,
       subaccount: this.auth.getSubaccount(),
       nonce: this.auth.generateNonce(),
       order_digest: request.orderDigest,
       is_conditional_order: false,
-      wait_for_reply: request.waitForReply,
+      wait_for_reply: request.waitForReply ?? false,
     } as CancelOrderApiRequest);
-    return response.data.data as CancelOrderApiResponse;
+
+    return response.data.data;
+  }
+
+  public async batchCancelOrder(
+    requests: CancelOrderRequest[]
+  ): Promise<CancelOrderApiResponse[]> {
+    const cancelRequests = requests.map((request) => this.cancelOrder(request));
+
+    return Promise.all(cancelRequests);
   }
 }
