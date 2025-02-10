@@ -87,3 +87,27 @@ export interface OrderApiResponse {
   client_order_id: string | null;
   trigger_price: string | null;
 }
+
+export interface CancelOrderApiRequest {
+  symbol: string;
+  subaccount: string;
+  nonce: string;
+  order_digest: string;
+  is_conditional_order: boolean;
+  wait_for_reply: boolean;
+}
+
+export interface CancelOrderRequest {
+  symbol: string;
+  orderDigest: string;
+  waitForReply: boolean;
+}
+
+interface CancelledOrder {
+  order_digest: string;
+  status: "Success" | "Failed";
+}
+
+export interface CancelOrderApiResponse {
+  orders: CancelledOrder[];
+}
