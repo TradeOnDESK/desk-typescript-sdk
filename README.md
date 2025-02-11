@@ -104,7 +104,6 @@ const client = new DeskExchange(wallet, {
 });
 ```
 
-## Running examples
 
 ```
 pnpm exec tsx examples/***.ts
