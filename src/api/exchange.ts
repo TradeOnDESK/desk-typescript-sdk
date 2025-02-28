@@ -7,6 +7,8 @@ import {
   CancelOrderApiResponse,
   OrderApiRequest,
   CancelOrderApiRequest,
+  CancelAllOrderRequest,
+  CancelAllOrderApiRequest,
 } from "../types";
 import { BROKER_ID, VAULT_ADDRESS } from "../types/constants";
 import { DeskExchange } from "..";
@@ -178,6 +180,7 @@ export class Exchange {
       order_digest: request.orderDigest,
       is_conditional_order: false,
       wait_for_reply: request.waitForReply ?? false,
+      client_order_id: request.clientOrderId,
     } as CancelOrderApiRequest);
 
     return response.data.data;
@@ -190,5 +193,15 @@ export class Exchange {
     const cancelRequests = requests.map((request) => this.cancelOrder(request));
 
     return Promise.all(cancelRequests);
+  }
+
+  public async cancelAllOrder(request: CancelAllOrderRequest) {
+    await this.parent.ensureInitialized();
+    const response = await this.auth.client.post(`/v2/cancel-all-orders`, {
+      symbol: request.symbol,
+      subaccount: this.auth.getSubaccount(),
+      nonce: this.auth.generateNonce(),
+      wait_for_reply: request.waitForReply ?? false,
+    } as CancelAllOrderApiRequest);
   }
 }

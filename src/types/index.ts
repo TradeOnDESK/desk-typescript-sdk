@@ -94,15 +94,29 @@ export interface CancelOrderApiRequest {
   symbol: string;
   subaccount: string;
   nonce: string;
-  order_digest: string;
+  order_digest?: string;
   is_conditional_order: boolean;
   wait_for_reply: boolean;
+  client_order_id?: string;
 }
 
 export interface CancelOrderRequest {
   symbol: string;
-  orderDigest: string;
+  orderDigest?: string;
   waitForReply: boolean;
+  clientOrderId?: string;
+}
+
+export interface CancelAllOrderRequest {
+  symbol?: string;
+  waitForReply: boolean;
+}
+
+export interface CancelAllOrderApiRequest {
+  symbol?: string;
+  subaccount: string;
+  nonce: string;
+  wait_for_reply: boolean;
 }
 
 interface CancelledOrder {
@@ -222,11 +236,11 @@ export type OrderUpdateStreamMessage = StreamMessage & {
 };
 
 export type PositionUpdateStreamMessage = StreamMessage & {
-  subaccount: string
+  subaccount: string;
   data: {
-    symbol: string
-    quantity: string
-    avgEntryPrice: string
-    side: string
-  }
-}
+    symbol: string;
+    quantity: string;
+    avgEntryPrice: string;
+    side: string;
+  };
+};
